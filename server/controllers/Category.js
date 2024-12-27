@@ -53,3 +53,47 @@ exports.showAllCategory = async (request,response) => {
         });
     }
 }
+
+
+// categoryPageDetails
+exports.categoryPageDetails = async (request,response) => {
+    try {
+        // Get categoryId
+        const {categoryId} = request.body;
+
+        // Get courses for the specified category
+        const selectedCategory = await Category.findById(categoryId)
+            .populate("course").exec();
+
+        // Validation
+        if(!selectedCategory) {
+            return response.status(404).json({
+                success:false,
+                message:'Data not found for selected category',
+            });
+        }
+
+        // Get courses for different categories
+        const differentCategories = await Category.find({
+                _id:{$ne: categoryId},
+            }).populate("course").exec();
+
+        // Get top selling courses - Incompleted
+
+        // Return response
+        return response.status(200).json({
+            success:true,
+            data: {
+                selectedCategory,
+                differentCategories,
+            },
+        })
+
+    }catch(error) {
+        console.log(error);
+        return response.status(500).json({
+            success:false,
+            message:error.message,
+        });
+    }
+}
