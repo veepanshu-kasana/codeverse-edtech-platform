@@ -36,7 +36,7 @@ exports.createCategory = async (request,response) => {
 }
 
 
-// getAllCategory Handler Function
+// showAllCategory Handler Function
 exports.showAllCategory = async (request,response) => {
     try {
         const allCategory = await Category.find({}, {name:true,description:true});

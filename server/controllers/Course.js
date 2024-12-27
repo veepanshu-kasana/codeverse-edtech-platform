@@ -3,7 +3,7 @@ const Category = require("../models/Category");
 const User = require("../models/User");
 const {uploadImageToCloudinary} = require("../utils/imageUploader");
 
-// createCourse handler function
+// CreateCourse handler function to create a new course
 exports.createCourse = async (request,response) => {
     try {
         // Fetch Data
@@ -85,7 +85,7 @@ exports.createCourse = async (request,response) => {
     }
 }
 
-// getAllCourses handler function
+// GetAllCourses handler function
 exports.showAllCourses = async (request,response) => {
     try {
         const allCourses = await Course.find({}, {
@@ -109,6 +109,53 @@ exports.showAllCourses = async (request,response) => {
             success:false,
             message:'Cannot fetch courses data!',
             error:error.message,
+        });
+    }
+}
+
+// GetCourseDetails
+exports.getCourseDetails = async (request,response) => {
+    try {
+        // Get Id
+        const {courseId} = request.body;
+        
+        // Find course details
+        const courseDetails = await Course.find({_id:courseId})
+            .populate({path:"instructor", 
+                populate:{
+                    path:"additionalDetails",
+                },
+            })
+            .populate("category")
+            .populate("ratingAndReviews")
+            .populate({
+                path:"courseContent",
+                populate:{
+                    path:"subSection",
+                },
+            })
+            .exec();
+        
+        // Validation
+        if(!courseDetails) {
+            return response.status(400).json({
+                success:false,
+                message:`Could not find the course with ${courseId}`,
+            });
+        }
+
+        // Return Response
+        return response.status(200).json({
+            success:true,
+            message:'Course details fetched successfully',
+            data:courseDetails,
+        });
+    }
+    catch(error) {
+        console.log(error);
+        return response.status(500).json({
+            success:false,
+            message:error.message,
         });
     }
 }
