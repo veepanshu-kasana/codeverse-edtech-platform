@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Define the Course Schema
 const courseSchema = new mongoose.Schema({
     courseName: {
         type: String,
@@ -24,7 +25,7 @@ const courseSchema = new mongoose.Schema({
     ratingAndReviews: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "RatingAndReviews",
+            ref: "RatingAndReview",
         }
     ],
     price: {
@@ -52,6 +53,10 @@ const courseSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ["Draft", "Published"],
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now(),
     },
 });
 

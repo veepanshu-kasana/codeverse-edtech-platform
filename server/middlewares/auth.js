@@ -1,38 +1,43 @@
+// Importing required modules
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const User = require("../models/User");
+// Configuring dotenv to load environment variables from .env file
+// dotenv.config();
 
-// auth
+// This function is used as middleware to authenticate user requests
 exports.auth = async (request,response,next) => {
     try {
         // Extract token
         const token = request.cookies.token || request.body.token || request.header("Authorisation").replace("Bearer ","");
 
-        // If token missing, then return response
+        // If JWT token is missing, then return 401 Unauthorized response
         if(!token) {
-            return response.status(404).json({
+            return response.status(401).json({
                 success:false,
-                message:'Token not found',
+                message:'Token is missing',
             });
         }
 
-        // Verify the token
+        // Verifying the JWT using the secret key stored in environment variables
         try {
             const decode = jwt.verify(token, process.env.JWT_SECRET);
             console.log(decode);
             request.user = decode;
         }
         catch(error) {
-            // Verification - Issue
+            // If JWT verification fails, return 401 Unauthorized response
             return response.status(401).json({
                 success:false,
                 message:'Token is invalid!',
             });
         }
         next();
+
     }
     catch(error) {
-        return response.status(500).json({
+        // If there is an error during the authentication process, return 401 Unauthorized response
+        return response.status(401).json({
             success:false,
             message:'Something went wrong, while validating the token',
         })
@@ -55,9 +60,9 @@ exports.isStudent = async (request,response,next) => {
         return response.status(500).json({
             success:false,
             message:'User role cannot be verified, please try again',
-        })
+        });
     }
-}
+};
 
 // isInstructor
 exports.isInstructor = async (request,response,next) => {
@@ -74,9 +79,9 @@ exports.isInstructor = async (request,response,next) => {
         return response.status(500).json({
             success:false,
             message:'User role cannot be verified, please try again',
-        })
+        });
     }
-}
+};
 
 
 // isAdmin
@@ -94,6 +99,6 @@ exports.isAdmin = async (request,response,next) => {
         return response.status(500).json({
             success:false,
             message:'User role cannot be verified, please try again',
-        })
+        });
     }
-}
+};
