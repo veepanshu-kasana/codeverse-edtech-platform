@@ -11,7 +11,7 @@ const {
     getFullCourseDetails,
     editCourse,
     getInstructorCourses,
-    deleteCourse,
+    deleteCourse
 } = require("../controllers/Course");
 
 //Import Categories Controller
@@ -32,7 +32,7 @@ const {
 const {
     createSubSection,
     updateSubSection,
-    deleteSubSection,
+    deleteSubSection
 } = require("../controllers/SubSection");
 
 //Import Rating Controller
@@ -72,7 +72,7 @@ router.post("/deleteSubSection", auth, isInstructor, deleteSubSection);
 //Add a sub section to a section
 router.post("/addSubSection", auth, isInstructor, createSubSection);
 //Get all courses under a specific instructor
-router.get("/addSubSection", auth, isInstructor, getInstructorCourses);
+router.get("/getInstructorCourses", auth, isInstructor, getInstructorCourses);
 //Get all registered courses
 router.get("/getAllCourses", getAllCourses);
 //Get details for a specific course
@@ -80,9 +80,9 @@ router.post("/getCourseDetails", getCourseDetails);
 //Get details for specific courses
 router.post("/getFullCourseDetails", auth, getFullCourseDetails);
 //To update course progress
-router.post("/updateCourseProgress", auth, isInstructor, updateCourseProgress);
+router.post("/updateCourseProgress", auth, isStudent, updateCourseProgress);
 //To get course progress
-router.post("/getProgressPercentage", auth, isStudent, getProgressPercentage);
+// router.post("/getProgressPercentage", auth, isStudent, getProgressPercentage);
 //Delete a course
 router.delete("/deleteCourse", deleteCourse);
 
