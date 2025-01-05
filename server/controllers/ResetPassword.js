@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const mailSender = require("../utils/mailSender");
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 
 //resetPasswordToken
 exports.resetPasswordToken = async (request,response) => {
@@ -11,36 +12,47 @@ exports.resetPasswordToken = async (request,response) => {
         // Check user exist for this email, email verification
         const user = await User.findOne({email:email});
         if(!user) {
-            return response.status(403).json({
+            return response.status(402).json({
                 success:false,
-                message:'User does not exist, Please signup first!',
+                message:`This Email: ${email} is not Registered With Us Enter a Valid Email`,
             });
         }
 
         // Generate Token
-        const token = crypto.randomUUID();
+        const token = crypto.randomBytes(20).toString("hex");
 
         // Update user by adding token and expiration time
-        const updatedDetails = await User.findOneAndUpdate({email:email},
-                {token:token,resetPasswordExpires:Date.now() + 5*60*1000},
-                    {new:true});
+        const updatedDetails = await User.findOneAndUpdate(
+            {email:email},
+            {
+                token:token,
+                resetPasswordExpires:Date.now() + 3600000,
+            },       
+            {new:true});
+        console.log("DETAILS", updatedDetails);
 
         // Create URL
         const url = `http://localhost:3000/update-password/${token}`
+        //  const url = `https://codeverse-edtech-project.vercel.app/update-password/${token}`
 
         // Send mail containing the url
-        await mailSender(email,"Password Reset",`Password Reset Link: ${url}`);
+        await mailSender(
+            email,
+            "Password Reset",
+            `Your Link for email verification is ${url}. Please click this url to reset your password.`
+        );
 
         // Return Response
         return response.status(200).json({
             success:true,
-            message:'Email sent successfully, please check your email!',
+            message:'Email Sent Successfully, Please Check Your Email to Continue Further',
         });
     }
     catch(error) {
         console.log(error);
         return response.status(500).json({
             success:false,
+            error:error.message,
             message:'Something went wrong, while sending password reset mail.'
         })
     }
@@ -56,7 +68,7 @@ exports.resetPassword = async (request,response) => {
         if(password !== confirmPassword) {
             return response.status(401).json({
                 success:false,
-                message:"Password do not match",
+                message:"Both the Passwords do not Match",
             });
         }
 
@@ -75,7 +87,7 @@ exports.resetPassword = async (request,response) => {
         if(userDetails.resetPasswordExpires < Date.now()) {
             return response.status(401).json({
                 success:false,
-                message:'Token is expired, please regenerate your token',
+                message:'Token is Expired, Please Regenerate Your Token',
             });
         }
 
@@ -94,12 +106,13 @@ exports.resetPassword = async (request,response) => {
             success:true,
             message:'Password reset successful',
         });
-    }
-    catch(error) {
+        
+    } catch(error) {
         console.log(error);
         return response.status(500).json({
             success:false,
             message:'Something went wrong, while resetting password!',
+            error:error.message
         });
     }
 }
