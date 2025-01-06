@@ -4,6 +4,7 @@ const otpGenerator = require("otp-generator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mailSender = require("../utils/mailSender");
+const {emailVerification} = require("../mail/templates/emailVerificationTemplate");
 const {passwordUpdated} = require("../mail/templates/passwordUpdate");
 const Profile = require("../models/Profile");
 require("dotenv").config();
@@ -46,11 +47,23 @@ exports.sendOTP = async (request,response) => {
             result = await OTP.findOne({otp: otp});
         }
 
+        // Save OTP in database
         const otpPayload = {email, otp};
 
         // Create an entry for OTP
         const otpBody = await OTP.create(otpPayload);
         console.log("OTP Body:", otpBody);
+
+        // Send email using the mailSender utility
+        const title = "CodeVerse: Your OTP Verification Code";
+        const emailResponse = await mailSender(email, title, emailVerification(otp));
+
+        if(emailResponse instanceof Error) {
+            return response.status(500).json({
+                success: false,
+                message: "Failed to send OTP email",
+            });
+        }
 
         // Return response successful
         response.status(200).json({

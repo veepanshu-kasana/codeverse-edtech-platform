@@ -7,7 +7,7 @@ const {convertSecondsToDuration} = require("../utils/secToDuration");
 const mongoose = require("mongoose");
 
 //Method for updating a profile
-exports.createProfile = async (request,response) => {
+exports.updateProfile = async (request,response) => {
     try {
         // Get Data
         const {firstName = "", lastName = "", dateOfBirth = "", about = "", 
@@ -251,7 +251,7 @@ exports.getEnrolledCourses = async (request,response) => {
 }
 
 
-exports.instuctorDashboard = async (request,response) => {
+exports.instructorDashboard = async (request,response) => {
     try {
         const courseDetails = await Course.find({instructor: request.user.id});
 
