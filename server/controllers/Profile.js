@@ -18,7 +18,7 @@ exports.updateProfile = async (request,response) => {
 
         // Validation
         if(!firstName || !lastName || !dateOfBirth || !about || 
-                !contactNumber || !gender || !id) {
+                !contactNumber || !gender) {
             return response.status(401).json({
                 success:false,
                 message:"All fields are required",
@@ -143,6 +143,7 @@ exports.getAllUserDetails = async (request,response) => {
 
     }
     catch(error) {
+        console.error(error);
         return response.status(500).json({
             success:false,
             message:error.message,
@@ -175,6 +176,7 @@ exports.updateDisplayPicture = async (request,response) => {
         })
 
     } catch(error) {
+        console.error(error);
         return response.status(500).json({
             success:false,
             message:error.message

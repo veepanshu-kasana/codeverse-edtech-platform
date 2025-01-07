@@ -108,7 +108,7 @@ exports.createCourse = async (request,response) => {
         });
     }
     catch(error) {
-        console.log(error);
+        console.error(error);
         return response.status(500).json({
             success:false,
             message:'Failed to create new course!',
