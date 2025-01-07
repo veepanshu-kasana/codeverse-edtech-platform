@@ -4,7 +4,7 @@ const otpGenerator = require("otp-generator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mailSender = require("../utils/mailSender");
-const {emailVerification} = require("../mail/templates/emailVerificationTemplate");
+const otpTemplate = require("../mail/templates/emailVerificationTemplate");
 const {passwordUpdated} = require("../mail/templates/passwordUpdate");
 const Profile = require("../models/Profile");
 require("dotenv").config();
@@ -54,14 +54,22 @@ exports.sendOTP = async (request,response) => {
         const otpBody = await OTP.create(otpPayload);
         console.log("OTP Body:", otpBody);
 
-        // Send email using the mailSender utility
-        const title = "CodeVerse: Your OTP Verification Code";
-        const emailResponse = await mailSender(email, title, emailVerification(otp));
-
-        if(emailResponse instanceof Error) {
+        // Send notification email - OTP Verification
+        try {
+            const emailResponse = await mailSender(
+                email,
+                "CodeVerse: Your OTP Verification Code",
+                otpTemplate(otp)
+            );
+            console.log("Email sent successfully:", emailResponse.response);
+            
+        }catch(error) {
+            // If there's an error sending the email, log the error and return a 500 (Internal Server Error) error
+            console.error("Error occured while sending email:", error);
             return response.status(500).json({
-                success: false,
-                message: "Failed to send OTP email",
+                success:false, 
+                message:"Error occurred while sending email",
+                error:error.message,
             });
         }
 
@@ -123,16 +131,19 @@ exports.signUp = async (request, response) => {
         }
 
         // Find most recent OTP stored for the user
-        const recentOtp = await OTP.find({email}).sort({createdAt:-1}).limit(1);
-        console.log(recentOtp);
+        const recentOtp = await OTP.find({email}).sort({createdAt:-1}).limit(1)
+        console.log(recentOtp)
+
         // Validate OTP
-        if(recentOtp.length == 0){
-            // OTP Not Found
-            return response.status(404).json({
+        recentOtpEntry = recentOtp[0];
+        if(recentOtp.length === 0){
+            // OTP Not Found for the Email
+            return response.status(400).json({
                 success:false,
                 message:'Otp Not Found',
             });
-        } else if(otp !== recentOtp.otp){
+
+        } else if(otp !== recentOtpEntry.otp){
             // Invalid OTP
             return response.status(400).json({
                 success:false,
@@ -144,8 +155,7 @@ exports.signUp = async (request, response) => {
         const hashedPassword = await bcrypt.hash(password,10);
 
         // Create the user
-        let approved = ""
-        approved === "Instructor" ? (approved = false) : (approved = true);
+        const approved = accountType === "Instructor" ? false : true;
 
         // Create the Additional Profile entry in Database
         const profileDetails = await Profile.create({
@@ -164,7 +174,7 @@ exports.signUp = async (request, response) => {
             accountType:accountType,
             approved: approved,
             additionalDetails:profileDetails._id,
-            image:`https://api.dicebear.com/5.x/initials/svg?seed=${firstname} ${lastname}`,
+            image:`https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
         });
 
         // Return Response
@@ -175,14 +185,13 @@ exports.signUp = async (request, response) => {
         });
     }
     catch(error) {
-        console.log(error);
+        console.error("Error during signup:", error);
         return response.status(500).json({
             success:false,
             message:'User cannot be registered, please try again!',
         });
     }
-
-}
+};
 
 
 // Login controller for authenticating users

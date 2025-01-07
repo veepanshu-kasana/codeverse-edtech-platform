@@ -13,8 +13,8 @@ const OTPSchema = new mongoose.Schema({
     },
     createdAt: {
         type: Date,
-        default: Date.now(),
-        expires: 5*60, // The document will be automatically deleted after 5 minutes of its creation time
+        default: Date.now,
+        expires: 1000*60*5, // The document will be automatically deleted after 5 minutes of its creation time
     },
 });
 
@@ -30,7 +30,7 @@ async function sendVerificationEmail(email,otp) {
     }
 }
 
-// Define a save hook to send email
+// Define a post-save hook to send email after the document has been saved
 OTPSchema.pre("save", async function(next){
     console.log("New document saved to database");
     
