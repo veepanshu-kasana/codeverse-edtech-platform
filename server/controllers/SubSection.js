@@ -8,7 +8,7 @@ exports.createSubSection = async (request,response) => {
         // Fetch data from request body
         const {sectionId, title, timeDuration, description} = request.body;
         // Extract file/video
-        const video = request.files.video;
+        const video = request.files.videoFile; //VideoFile is initialized from postman fileName
 
         // Data Validation - check if all necessary fields are provided
         if(!sectionId || !title || !timeDuration || !description || !video) {

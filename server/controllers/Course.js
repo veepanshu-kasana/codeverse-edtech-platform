@@ -11,7 +11,7 @@ const {convertSecondsToDuration} = require("../utils/secToDuration");
 exports.createCourse = async (request,response) => {
     try {
         // Fetch Data - Get all require fields
-        const {courseName, courseDescription, whatYouWillLearn, price, category, tag:_tag, 
+        let {courseName, courseDescription, whatYouWillLearn, price, category, tag:_tag, 
             status, instructions: _instructions} = request.body;
 
         // Get thumbnail image from request files
@@ -185,8 +185,8 @@ exports.getCourseDetails = async (request,response) => {
 
         let totalDurationInSeconds = 0;
         courseDetails.courseContent.forEach((content) => {
-            content.SubSection.forEach((SubSection) => {
-                const timeDurationInSeconds = parseInt(SubSection.timeDuration);
+            content.subSection.forEach((subSection) => {
+                const timeDurationInSeconds = parseInt(subSection.timeDuration);
                 totalDurationInSeconds += timeDurationInSeconds;
             });
         })
@@ -203,7 +203,7 @@ exports.getCourseDetails = async (request,response) => {
         });
     }
     catch(error) {
-        console.log(error);
+        console.error(error);
         return response.status(500).json({
             success:false,
             message:error.message,
