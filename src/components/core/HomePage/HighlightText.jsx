@@ -5,6 +5,7 @@ export const HighlightText = ({text}) => {
     <span className='font-bold text-blue-200'>
         {" "}
         {text}
+        {" "}
     </span>
   )
 }
