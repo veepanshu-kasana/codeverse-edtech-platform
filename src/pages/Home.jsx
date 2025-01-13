@@ -11,7 +11,7 @@ export const Home = () => {
     <div>
         {/* Section 1 */}
         <div className='relative mx-auto flex flex-col w-11/12 max-w-maxContent items-center
-        text-white justify-between'>
+         text-white justify-between gap-8'>
 
             <Link to={"/signup"}>
 
