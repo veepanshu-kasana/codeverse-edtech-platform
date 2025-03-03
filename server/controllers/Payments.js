@@ -5,7 +5,7 @@ const crypto = require("crypto");
 const User = require("../models/User");
 const mailSender = require("../utils/mailSender");
 const {courseEnrollmentEmail} = require("../mail/templates/courseEnrollmentEmail");
-const {paymentSuccessEmail} = require("../models/CourseProgress");
+const {paymentSuccessEmail} = require("../mail/templates/paymentSuccessEmail");
 const CourseProgress = require("../models/CourseProgress");
 
 // Capture the payment and initiate the Razorpay order
