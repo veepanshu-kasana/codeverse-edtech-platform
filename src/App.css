@@ -9,3 +9,14 @@ html, body {
 .homepage_bg {
   background: url("../src/assets/Images/bghome.svg");
 }
+
+/* FireFox - Scrollbar CSS */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #afb2bf;
+}
+
+.swiper-slide {
+  width: 100%;
+  height: 100%;
+}

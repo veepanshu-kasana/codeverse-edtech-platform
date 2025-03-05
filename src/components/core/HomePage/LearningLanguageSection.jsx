@@ -7,7 +7,7 @@ import plan_your_lessons from '../../../assets/Images/Plan_your_lessons.png'
 
 export const LearningLanguageSection = () => {
   return (
-    <div className='mt-[130px]'>
+    <div className='mt-[130px] mb-24'>
         <div className='flex flex-col gap-5 items-center'>
 
           <div className='text-4xl font-semibold text-center'>

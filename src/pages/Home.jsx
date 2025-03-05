@@ -7,6 +7,9 @@ import bannerVideo from "../assets/Images/banner.mp4";
 import { CodeBlocks } from '../components/core/HomePage/CodeBlocks';
 import { TimeLineSection } from '../components/core/HomePage/TimeLineSection';
 import { LearningLanguageSection } from '../components/core/HomePage/LearningLanguageSection';
+import { InstructorSection } from '../components/core/HomePage/InstructorSection';
+import { ExploreMore } from '../components/core/HomePage/ExploreMore';
+import { ReviewSlider } from '../components/common/ReviewSlider';
 
 export const Home = () => {
   return (
@@ -128,26 +131,35 @@ export const Home = () => {
                     backgroundGradient={<div className="codeblock2 absolute"></div>}
                 />
             </div>
+
+            <ExploreMore/>
         </div>
 
         {/* Section 2 */}
         <div className='bg-pure-greys-5 text-richblack-700'>
+
             <div className='homepage_bg h-[310px]'>
                 <div className='w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-5 mx-auto'>
+
                     <div className='h-[150px]'></div>
+
                     <div className='flex flex-row gap-7 text-white'>
+
                         <CTAButton active={true} linkto={"/signup"}>
                             <div className='flex items-center gap-3'>
                                 Explore Full Catalog
                                 <FaArrowRight/>
                             </div>
                         </CTAButton>
+
                         <CTAButton active={false} linkto={"/signup"}>
                             <div>
                                 Learn more
                             </div>
                         </CTAButton>
+
                     </div>
+
                 </div>
             </div>
 
@@ -184,6 +196,16 @@ export const Home = () => {
         </div>
 
         {/* Section 3 */}
+        <div className='w-11/12 mx-auto max-w-maxContent flex-col items-center justify-between gap-8 
+        first-letter bg-richblack-900 text-white'>
+
+            <InstructorSection/>
+
+            <h2 className='text-center text-4xl font-semibold mt-10'>Review from other learners</h2>
+            {/* Review Slider Here */}
+            <ReviewSlider/>
+
+        </div>
 
         {/* Footer Section */}
     </div>
