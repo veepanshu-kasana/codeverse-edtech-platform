@@ -10,6 +10,7 @@ import { LearningLanguageSection } from '../components/core/HomePage/LearningLan
 import { InstructorSection } from '../components/core/HomePage/InstructorSection';
 import { ExploreMore } from '../components/core/HomePage/ExploreMore';
 import { ReviewSlider } from '../components/common/ReviewSlider';
+import { Footer } from '../components/common/Footer';
 
 export const Home = () => {
   return (
@@ -208,6 +209,8 @@ export const Home = () => {
         </div>
 
         {/* Footer Section */}
+        <Footer/>
+        
     </div>
   )
 }
