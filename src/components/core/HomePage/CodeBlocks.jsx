@@ -1,6 +1,6 @@
 import React from 'react'
 import { CTAButton } from './Button';
-import { HighlightText } from './HighlightText';
+// import { HighlightText } from './HighlightText';
 import { FaArrowRight } from 'react-icons/fa';
 import { TypeAnimation } from 'react-type-animation';
 
