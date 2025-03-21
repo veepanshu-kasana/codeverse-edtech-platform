@@ -1,7 +1,7 @@
 import signupImg from '../assets/Images/signup.webp';
-import {Template} from '../components/core/Auth/Template';
+import Template from '../components/core/Auth/Template';
 
-function Signup() {
+export const Signup = () => {
     return (
         <Template
             title="Join the millions learning to code with CodeVerse for free"
@@ -12,5 +12,3 @@ function Signup() {
         />
     )
 }
-
-export default Signup;
