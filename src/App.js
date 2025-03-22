@@ -9,6 +9,7 @@ import { Login } from './pages/Login';
 import { Signup } from './pages/Signup';
 import { Error } from './pages/Error';
 import { ACCOUNT_TYPE } from './utils/constants';
+import { UpdatePassword } from './pages/UpdatePassword';
 
 function App() {
   return (
@@ -38,6 +39,14 @@ function App() {
           element={
             <OpenRoute>
               <ForgotPassword/>
+            </OpenRoute>
+          }
+        />
+
+        <Route path='update-password/:id'
+          element={
+            <OpenRoute>
+              <UpdatePassword/>
             </OpenRoute>
           }
         />
