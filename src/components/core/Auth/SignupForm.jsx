@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { sendOtp } from '../../../services/operations/authAPI';
 import { setSignupData } from '../../../slices/authSlice';
 import { ACCOUNT_TYPE } from '../../../utils/constants';
@@ -179,7 +179,7 @@ export const SignupForm = () => {
                         className='w-full rounded-[0.5rem] bg-richblack-800 p-[12px] pr-10 text-richblack-5'
                     />
 
-                    <span onClick={() => setShowPassword((prev) => !prev)}
+                    <span onClick={() => setShowConfirmPassword((prev) => !prev)}
                       className='absolute right-3 top-[38px] z-[10] cursor-pointer'>
 
                         {showConfirmPassword ? (
