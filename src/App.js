@@ -12,6 +12,7 @@ import { ACCOUNT_TYPE } from './utils/constants';
 import { UpdatePassword } from './pages/UpdatePassword';
 import { VerifyEmail } from './pages/VerifyEmail';
 import { MyProfile } from './components/core/Dashboard/MyProfile';
+import { About } from './pages/About';
 
 function App() {
   return (
@@ -64,6 +65,14 @@ function App() {
         <Route path='dashboard/my-profile'
           element={
             <MyProfile/>
+          }
+        />
+
+        <Route path='about'
+          element={
+            <OpenRoute>
+              <About/>
+            </OpenRoute>
           }
         />
 
