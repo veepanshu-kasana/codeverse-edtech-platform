@@ -13,6 +13,7 @@ import { UpdatePassword } from './pages/UpdatePassword';
 import { VerifyEmail } from './pages/VerifyEmail';
 import { MyProfile } from './components/core/Dashboard/MyProfile';
 import { About } from './pages/About';
+import { Contact } from './pages/Contact';
 
 function App() {
   return (
@@ -68,11 +69,16 @@ function App() {
           }
         />
 
-        <Route path='about'
+        <Route path='/about'
           element={
-            <OpenRoute>
-              <About/>
-            </OpenRoute>
+            <About/>
+          }
+        />
+
+        <Route
+          path='/contact'
+          element={
+            <Contact/>
           }
         />
 
