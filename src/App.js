@@ -14,6 +14,11 @@ import { VerifyEmail } from './pages/VerifyEmail';
 import { MyProfile } from './components/core/Dashboard/MyProfile';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
+import { Dashboard } from './pages/Dashboard';
+import { PrivateRoute } from './components/core/Auth/PrivateRoute';
+import { EnrolledCourses } from './components/core/Dashboard/EnrolledCourses';
+import { Settings } from './components/core/Dashboard/Settings';
+import { Cart } from './components/core/Dashboard/Cart';
 
 function App() {
   return (
@@ -61,13 +66,28 @@ function App() {
               <VerifyEmail/>
             </OpenRoute>
           }
-        />
+        />        
 
-        <Route path='dashboard/my-profile'
+        <Route
           element={
-            <MyProfile/>
+            <PrivateRoute>
+              <Dashboard/>
+            </PrivateRoute>
           }
-        />
+        >
+          <Route path='dashboard/my-profile' element={<MyProfile/>}/>
+          <Route path='dashboard/settings' element={<Settings/>}/>
+          {
+            user?.accountType === ACCOUNT_TYPE.STUDENT && (
+              <>
+                <Route path='dashboard/cart' element={<Cart/>}/>
+                <Route path='dashboard/enrolled-courses' element={<EnrolledCourses/>}/>
+              </>
+            )
+          } 
+        </Route>
+
+        <Route path='*' element={<Error/>}/>
 
         <Route path='/about'
           element={
