@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import OpenRoute from "./components/core/Auth/OpenRoute"
 import { Home } from "./pages/Home";
 import { Navbar } from './components/common/Navbar';
@@ -19,8 +19,14 @@ import { PrivateRoute } from './components/core/Auth/PrivateRoute';
 import { EnrolledCourses } from './components/core/Dashboard/EnrolledCourses';
 import { Settings } from './components/core/Dashboard/Settings';
 import { Cart } from './components/core/Dashboard/Cart';
+import { useDispatch, useSelector } from 'react-redux';
 
 function App() {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.profile);
+
   return (
     <div className='w-screen min-h-screen bg-richblack-900 flex flex-col font-inter'>
     <Navbar/>

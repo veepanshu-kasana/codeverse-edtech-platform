@@ -29,7 +29,7 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
   try {
     // Load the script
     const response = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
-    if (!res) {
+    if (!response) {
       toast.error("Razorpay SDK failed to load");
       return;
     }
@@ -37,7 +37,7 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
     // initiate the order
     const orderResponse = await apiConnector("POST", COURSE_PAYMENT_API, {courses},
       {
-        Authorization: `Bearer ${token}`,
+        Authorisation: `Bearer ${token}`,
       }
     )
 
@@ -88,7 +88,7 @@ async function sendPaymentSuccessEmail(response, amount, token) {
       paymentId: response.razorpay_payment_id,
       amount,
     }, {
-      Authorization: `Bearer ${token}`
+      Authorisation: `Bearer ${token}`
     })
   }
   catch(error) {
@@ -102,7 +102,7 @@ async function verifyPayment(bodyData, token, navigate, dispatch) {
   dispatch(setPaymentLoading(true));
   try {
     const response = await apiConnector("POST", COURSE_VERIFY_API, bodyData, {
-      Authorization: `Bearer ${token}`,
+      Authorisation: `Bearer ${token}`,
     })
 
     if(!response.data.success) {
