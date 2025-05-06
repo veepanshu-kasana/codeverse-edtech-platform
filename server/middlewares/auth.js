@@ -9,7 +9,7 @@ const User = require("../models/User");
 exports.auth = async (request,response,next) => {
     try {
         // Extract token
-        const token = request.cookies.token || request.body.token || request.header("Authorisation").replace("Bearer ","");
+        const token = request.cookies.token || request.body.token || request.header("Authorization").replace("Bearer ","");
 
         // If JWT token is missing, then return 401 Unauthorized response
         if(!token) {
