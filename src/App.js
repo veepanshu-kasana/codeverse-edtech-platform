@@ -20,6 +20,7 @@ import { EnrolledCourses } from './components/core/Dashboard/EnrolledCourses';
 import { Settings } from './components/core/Dashboard/Settings';
 import { Cart } from './components/core/Dashboard/Cart';
 import { useDispatch, useSelector } from 'react-redux';
+import { AddCourse } from './components/core/Dashboard/AddCourse';
 
 function App() {
 
@@ -91,6 +92,15 @@ function App() {
               </>
             )
           } 
+          {
+            user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
+              <>
+                {/* <Route path='dashboard/instructor' element={<Instructor/>}/> */}
+                <Route path='dashboard/add-course' element={<AddCourse />}/>
+                {/* <Route path='dashboard/edit-course/:courseId' element={<EditCourse/>}/> */}
+              </>
+            )
+          }
         </Route>
 
         <Route path='*' element={<Error/>}/>
