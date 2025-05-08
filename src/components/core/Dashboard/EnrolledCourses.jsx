@@ -11,19 +11,20 @@ export const EnrolledCourses = () => {
 
     const [enrolledCourses, setEnrolledCourses] = useState(null);
 
-    const getEnrolledCourses = async() => {
-        try {
-            const response = await getUserEnrolledCourses(token);
-            setEnrolledCourses(response);
-        }
-        catch(error) {
-            console.log("Unable to fetch enrolled courses!");
-        }
-    };
-
     useEffect(() => {
-        getEnrolledCourses();
-    }, []);
+        ;(async () => {
+          try {
+            const res = await getUserEnrolledCourses(token) // Getting all the published and the drafted courses
+    
+            // Filtering the published course out
+            const filterPublishCourse = res.filter((ele) => ele.status !== "Draft")
+
+            setEnrolledCourses(filterPublishCourse)
+          } catch (error) {
+            console.log("Could not fetch enrolled courses.")
+          }
+        })()
+    }, [])
 
   return (
     <div>
@@ -47,7 +48,7 @@ export const EnrolledCourses = () => {
                     </div>
                     {/* Courses Name */}
                     {
-                        enrolledCourses.map((course, i, arr) => {
+                        enrolledCourses.map((course, i, arr) => (
                             <div className={`flex items-center border border-richblack-700
                              ${i === arr.length - 1 ? "rounded-b-lg" : "rounded-none"}`} key={i}>
                                 <div className='flex w-[45%] cursor-pointer items-center gap-4 px-5 py-3'
@@ -84,7 +85,7 @@ export const EnrolledCourses = () => {
                                     />
                                 </div>
                             </div>
-                        })
+                        ))
                     }
                 </div>
             )

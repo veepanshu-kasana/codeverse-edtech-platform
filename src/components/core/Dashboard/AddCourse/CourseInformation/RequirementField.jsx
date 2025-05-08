@@ -41,7 +41,7 @@ export const RequirementsField = ({name, label, register, setValue, errors, getV
             {label} <sup className='text-pink-200'>*</sup>
         </label>
 
-        <div className='flex flex-col items-center space-y-2'>
+        <div className='flex flex-col items-start space-y-2'>
             <input
                 type='text'
                 id={name}

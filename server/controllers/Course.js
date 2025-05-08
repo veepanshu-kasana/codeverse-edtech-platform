@@ -217,6 +217,14 @@ exports.editCourse = async (request, response) => {
     try {
         const {courseId} = request.body;
         const updates = request.body;
+
+        // Validate if courseId is provided
+        if (!courseId || typeof courseId !== 'string') {
+            return response.status(400).json({
+                success: false,
+                message: "Course ID is required"
+            });
+        }
         const course = await Course.findById(courseId);
 
         if(!course){
@@ -224,7 +232,7 @@ exports.editCourse = async (request, response) => {
         }
 
         //If Thumbnail Image is found, update it
-        if(request.files) {
+        if(request.files && request.files.thumbnailImage) {
             console.log("Thumbnail Update");
             const thumbnail = request.files.thumbnailImage;
             const thumbnailImage = await uploadImageToCloudinary(
@@ -236,7 +244,7 @@ exports.editCourse = async (request, response) => {
 
         //Update only the fields that are present in the request body
         for(const key in updates) {
-            if(updates.hasOwnProperty(key)) {
+            if(updates.hasOwnProperty(key) && key !== "courseId") {
                 if(key == "tag" || key == "instructions") {
                     course[key] = JSON.parse(updates[key]);
                 }
@@ -248,9 +256,7 @@ exports.editCourse = async (request, response) => {
 
         await course.save();
 
-        const updatedCourse = await Course.findOne({
-            _id:courseId,
-        })
+        const updatedCourse = await Course.findById(courseId)
             .populate({
                 path: "instructor",
                 populate: {
@@ -274,7 +280,7 @@ exports.editCourse = async (request, response) => {
         });
 
     } catch(error) {
-        console.error(error);
+        console.error("Error updating course:", error);
         response.status(500).json({
             success:false,
             message:"Internal server error",

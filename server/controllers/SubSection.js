@@ -6,22 +6,20 @@ const {uploadImageToCloudinary} = require("../utils/imageUploader");
 exports.createSubSection = async (request,response) => {
     try {
         // Fetch data from request body
-        const {sectionId, title, timeDuration, description} = request.body;
+        const {sectionId, title, description} = request.body;
         // Extract file/video
-        const video = request.files.videoFile; //VideoFile is initialized from postman fileName
+        const video = request.files.video;
 
         // Data Validation - check if all necessary fields are provided
-        if(!sectionId || !title || !timeDuration || !description || !video) {
+        if(!sectionId || !title || !description || !video) {
             return response.status(400).json({
                 success:false,
                 message:"All fields are required",
             });
         }
-        console.log(video);
 
         // Upload the video file to cloudinary
         const uploadDetails = await uploadImageToCloudinary(video, process.env.FOLDER_NAME);
-        console.log(uploadDetails);
 
         // Create a new sub-section with the necessary information
         const subSectionDetails = await SubSection.create({
@@ -41,13 +39,16 @@ exports.createSubSection = async (request,response) => {
             },
             {new:true}
         )
-        .populate("subSection");
+        .populate({
+            path: "subSection",
+            select: "title description videoUrl timeDuration"
+        });
 
         // Return the updated section in the response
         return response.status(200).json({
             success:true,
             message:"Sub-Section Created Successfully",
-            updatedSection,
+            data:updatedSection,
         });
 
     }
@@ -82,7 +83,8 @@ exports.updateSubSection = async (request,response) => {
             subSection.description = description;
         }
 
-        if(request.files && request.files.video !== undefined) {
+        // Only handle video upload if a new video file is provided
+        if(request.files && request.files.video) {
             const video = request.files.video;
             const uploadDetails = await uploadImageToCloudinary(
                 video,
@@ -95,8 +97,11 @@ exports.updateSubSection = async (request,response) => {
 
         //Find updated section and return it
         const updatedSection = await Section.findById(sectionId)
-            .populate("subSection");
-        console.log("Updated Section", updatedSection);
+            .populate({
+                path: "subSection",
+                select: "title description videoUrl timeDuration"
+            });
+        
 
         return response.status(200).json({
             success:true,

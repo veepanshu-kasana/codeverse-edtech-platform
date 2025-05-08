@@ -11,7 +11,7 @@ import { MdNavigateNext } from 'react-icons/md';
 
 export const CourseBuilderForm = () => {
 
-  const {register, handleSubmit, setValue, formState:{errors}} = useForm();
+  const {register, handleSubmit, setValue, formState:{errors}, reset} = useForm();
   const [editSectionName, setEditSectionName] = useState(null);
   const { course } = useSelector((state) => state.course);
   const dispatch = useDispatch();
@@ -19,34 +19,61 @@ export const CourseBuilderForm = () => {
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
+    
+    if (loading) return; // Prevent duplicate submissions
+
+    const formData = new FormData();
+    formData.append("sectionName", data.sectionName);
+    formData.append("courseId", course._id);
+
+    const toastId = toast.loading(editSectionName ? "Updating section..." : "Creating section..."); // Single toast for loading
     setLoading(true);
-    let result;
 
-    if(editSectionName) {
-      // We are editing the section name
-      result = await updateSection(
-        {
-          sectionName: data.sectionName,
-          sectionId: editSectionName,
-          courseId: course._id,
-        }, token
-      )
-    } else {
-      result = await createSection({
-        sectionName: data.sectionName,
-        courseId: course._id,
-      }, token)
+    try {
+      let result;
+      if(editSectionName) {
+        // We are editing the section name
+        result = await updateSection(
+          {
+            sectionName: data.sectionName,
+            sectionId: editSectionName,
+            courseId: course._id,
+          }, token
+        );
+
+      } else {
+        result = await createSection(formData, token);
+        console.log("Result from createSection:", result);
+
+      }
+      if(result?.success) {
+        // Update Redux state with the new section
+        dispatch(setCourse(result.updatedCourseDetails));
+
+        reset();
+        setEditSectionName(null);
+
+        toast.success(editSectionName 
+          ? "Section updated successfully" 
+          : "Course Section Created",
+          {
+            id: toastId, // Replace loading toast with success
+          }
+        );
+      }
+
+    } catch (error) {
+      console.error("Error in section operation:", error);
+      toast.error(
+          editSectionName 
+              ? "Failed to update section" 
+              : "Failed to create section",
+          { id: toastId }
+      );
+
+    } finally {
+      setLoading(false);
     }
-
-    // Updating Values 
-    if(result) {
-      dispatch(setCourse(result));
-      setEditSectionName(null);
-      setValue("sectionName", "");
-    }
-
-    // Loading False 
-    setLoading(false);
   }
 
   const cancelEdit = () => {
@@ -136,8 +163,8 @@ export const CourseBuilderForm = () => {
       </form>
 
       {
-        course.courseContent.length > 0 && (
-          <NestedView handleChangeEditSectionName={handleChangeEditSectionName()}/>
+        course?.courseContent?.length > 0 && (
+          <NestedView handleChangeEditSectionName={handleChangeEditSectionName}/>
         )
       }
 

@@ -270,7 +270,7 @@ exports.changePassword = async(request,response) => {
         const {oldPassword, newPassword} = request.body;
     
         // Valide Old Password
-        const isPasswordMatch = await brcypt.compare(oldPassword, userDetails.password);
+        const isPasswordMatch = await bcrypt.compare(oldPassword, userDetails.password);
         if(!isPasswordMatch) {
             // If old password does not match, return a 401 (Unauthorized) error
             return response.status(401).json({

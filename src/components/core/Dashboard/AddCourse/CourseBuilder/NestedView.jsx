@@ -70,7 +70,7 @@ export const NestedView = ({handleChangeEditSectionName}) => {
                             <div className='flex items-center gap-x-3'>
 
                                 <button
-                                 onClick={handleChangeEditSectionName(section._id, section.sectionName)}>
+                                 onClick={() => handleChangeEditSectionName(section._id, section.sectionName)}>
                                     <MdEdit className='text-xl text-richblack-300'/>
                                 </button>
 
@@ -98,7 +98,7 @@ export const NestedView = ({handleChangeEditSectionName}) => {
                         <div className='px-6 pb-4'>
                             {
                                 // Render All Sub Sections Within a Section
-                                section.subSection.map((data) => {
+                                section.subSection.map((data) => (
                                     <div
                                         key={data?._id} 
                                         onClick={() => setViewSubSection(data)}
@@ -136,7 +136,7 @@ export const NestedView = ({handleChangeEditSectionName}) => {
                                             </button>
                                         </div>
                                     </div>
-                                })
+                                ))
                             }
 
                             {/* Add New Lecture to Section */}

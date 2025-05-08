@@ -69,7 +69,7 @@ export const CourseInformationForm = () => {
             currentValues.coursePrice !== course.price ||
             currentValues.courseTags.toString() !== course.tag.toString() ||
             currentValues.courseBenefits !== course.whatYouWillLearn ||
-            currentValues.courseCategory._id !== course.category._id ||
+            (currentValues.courseCategory?.toString() !== course.category._id?.toString()) ||
             currentValues.courseRequirements.toString() !== course.instructions.toString() ||
             currentValues.courseImage !== course.thumbnail
         )
@@ -85,7 +85,7 @@ export const CourseInformationForm = () => {
                 const currentValues = getValues();
                 const formData = new FormData();
     
-                formData.append("courseId", course._id);
+                formData.append("courseId", course._id.toString());
                 if(currentValues.courseTitle !== course.courseName) {
                     formData.append("courseName", data.courseTitle);
                 }
@@ -108,6 +108,7 @@ export const CourseInformationForm = () => {
                     formData.append("instructions", JSON.stringify(data.courseRequirements));
                 }
                 if(currentValues.courseImage !== course.thumbnail) {
+                    // console.log("Thumbnail being appended:", data.courseImage);
                     formData.append("thumbnailImage", data.courseImage);
                 }
     
@@ -136,6 +137,7 @@ export const CourseInformationForm = () => {
         formData.append("category", data.courseCategory);
         formData.append("instructions", JSON.stringify(data.courseRequirements));
         formData.append("status", COURSE_STATUS.DRAFT);
+        formData.append("thumbnailImage", data.courseImage);
 
         setLoading(true);
         const result = await addCourseDetails(formData, token);
@@ -196,7 +198,7 @@ export const CourseInformationForm = () => {
             <label htmlFor='coursePrice' className='text-sm text-richblack-5'>
                 Course Price <sup className='text-pink-200'>*</sup>
             </label>
-            <div>
+            <div className='relative'>
                 <input
                     id='coursePrice'
                     placeholder='Enter Course Price'
@@ -236,11 +238,11 @@ export const CourseInformationForm = () => {
                     Choose a Category
                 </option>
                 {
-                    !loading && courseCategories?.map((category, index) => {
+                    !loading && courseCategories?.map((category, index) => (
                         <option key={index} value={category?._id}>
                             {category?.name}
                         </option>
-                    })
+                    ))
                 }
             </select>
             {
