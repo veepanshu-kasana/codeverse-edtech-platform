@@ -21,7 +21,7 @@ export const ConfirmationModal = ({modalData}) => {
                 <IconBtn onclick={modalData?.btn1Handler}
                  text={modalData?.btn1Text}/>
                  
-                <button onclick={modalData?.btn2Handler}
+                <button onClick={modalData?.btn2Handler}
                  className='cursor-pointer rounded-md bg-richblack-200 py-[8px] px-[20px]
                   font-semibold text-richblack-900'>
                     {modalData?.btn2Text}

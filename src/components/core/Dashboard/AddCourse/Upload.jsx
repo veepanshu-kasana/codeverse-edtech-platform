@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDropzone } from 'react-dropzone';
 import { FiUploadCloud } from 'react-icons/fi';
 import { useSelector } from 'react-redux'
-import { Player } from 'react-player';
+import ReactPlayer from 'react-player';
 
 export const Upload = ({
   name, label, register, setValue, errors, video = false, viewData = null, editData = null
@@ -17,18 +17,19 @@ export const Upload = ({
   const inputRef = useRef(null);
 
   const onDrop = (acceptedFiles) => {
-    const file = acceptedFiles[0]
-    if(file) {
+    if (acceptedFiles && acceptedFiles.length > 0) {
+      const file = acceptedFiles[0];
       previewFile(file);
       setSelectedFile(file);
     }
   }
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: !video
-     ? { "image/*" : [".jpeg", ".jpg", ".png"]}
-     : { "video/*" : [".mp4"]},
+    accept: !video 
+      ? { 'image/*': ['.jpeg', '.jpg', '.png'] }
+      : { 'video/*': ['.mp4'] },
     onDrop,
+    multiple: false
   })
 
   const previewFile = (file) => {
@@ -55,10 +56,13 @@ export const Upload = ({
       </label>
 
       <div
-       className={`${isDragActive ? "bg-richblack-600" : "bg-richblack-700"}
-        flex min-h-[250px] cursor-pointer items-center justify-center rounded-md border-2
-        border-dotted border-richblack-500`}>
+        {...getRootProps()}
+        onClick={(e) => e.stopPropagation()}
+        className={`${isDragActive ? "bg-richblack-600" : "bg-richblack-700"}
+          flex min-h-[250px] cursor-pointer items-center justify-center rounded-md border-2
+          border-dotted border-richblack-500`}>
 
+        <input {...getInputProps()} ref={inputRef} onClick={(e) => e.stopPropagation()}/>
         {
           previewSource ? (
             <div className='flex w-full flex-col p-6'>
@@ -70,8 +74,11 @@ export const Upload = ({
                     className='h-full w-full rounded-md object-cover'
                   />
                 ) : (
-                  <Player
-                    aspectRatio="16:9" playsInline src={previewSource}
+                  <ReactPlayer
+                    url={previewSource}
+                    controls={true}
+                    width="100%"
+                    height="100%"
                   />
                 )
               }
@@ -92,9 +99,13 @@ export const Upload = ({
               }
             </div>
           ) : (
-            <div className='flex w-full flex-col items-center p-6' {...getRootProps()}>
+            <div className='flex w-full flex-col items-center p-6'
+              onClick={(e) => {
+                e.stopPropagation();
+                inputRef.current.click();
+              }}
+            >
 
-              <input {...getInputProps()} ref={inputRef}/>
               <div className='grid aspect-square w-14 place-items-center rounded-full bg-pure-greys-800'>
                 <FiUploadCloud className="text-2xl text-yellow-50"/>
               </div>
@@ -102,7 +113,7 @@ export const Upload = ({
               <p className='mt-2 max-w-[200px] text-center text-sm text-richblack-200'>
                 Drag and drop an {!video ? "image" : "video"}, or click to{" "}
                 <span className='font-semibold text-yellow-50'>Browse</span>
-                a file
+                {" "} a file
               </p>
 
               <ul className='mt-10 flex list-disc justify-between space-x-12 text-center text-xs text-richblack-200'>

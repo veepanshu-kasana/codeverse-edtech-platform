@@ -56,6 +56,15 @@ app.get("/", (request,response) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`App is running at ${PORT}`);
-})
+const startServer = () => {
+    try {
+        app.listen(PORT, () => {
+            console.log(`Server is running at port ${PORT}`);
+        });
+    } catch (error) {
+        console.error("Error starting server:", error);
+        process.exit(1);
+    }
+};
+
+startServer();

@@ -12,7 +12,7 @@ export const SubSectionModal = ({
   modalData, setModalData, add = false, view = false, edit = false,
 }) => {
 
-    const {register, handleSubmit, setValue, formState: {errors}, getValues} = useForm();
+    const {register, handleSubmit, setValue, formState: {errors}, getValues, reset} = useForm();
 
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
@@ -72,39 +72,73 @@ export const SubSectionModal = ({
     }
 
     const onSubmit = async (data) => {
-      if(view) {
-        return;
-      }
-
-      if(edit) {
-        if(!isFormUpdated) {
-          toast.error("No changes made to the form")
-        }
-        else {
-          handleEditSubSection();
-        }
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("sectionId", modalData);
-      formData.append("title", data.lectureTitle);
-      formData.append("description", data.lectureDesc);
-      formData.append("video", data.lectureVideo);
-
+      if (loading) return;
       setLoading(true);
-      // API CALL 
-      const result = await createSubSection(formData, token);
+      const toastId = toast.loading(edit ? "Updating lecture..." : "Creating lecture...");
 
-      if(result) {
-        const updatedCourseContent = course.courseContent.map((section) => 
-          section._id === modalData ? result : section);
-        const updatedCourse = {...course, courseContent: updatedCourseContent};
-        dispatch(setCourse(updatedCourse));
+      try {
+        const formData = new FormData();
+        
+        if (edit) {
+            // For editing existing lecture
+            formData.append("sectionId", modalData.sectionId);
+            formData.append("subSectionId", modalData._id);
+        } else {
+            // For creating new lecture
+            formData.append("sectionId", modalData);
+        }
+        
+        formData.append("title", data.lectureTitle);
+        formData.append("description", data.lectureDesc);
+        
+        // Only append video if it's a new lecture or if video is changed during edit
+        if (data.lectureVideo instanceof File) {
+            formData.append("video", data.lectureVideo);
+        }
+
+        const result = edit 
+            ? await updateSubSection(formData, token)
+            : await createSubSection(formData, token);
+
+        if (result?.success) {
+            // Update the course content in Redux
+            const updatedCourseContent = course.courseContent.map((section) => 
+                section._id === (edit ? modalData.sectionId : modalData) 
+                    ? result.data 
+                    : section
+            );
+
+            dispatch(setCourse({
+                ...course,
+                courseContent: updatedCourseContent
+            }));
+
+            toast.success(
+                edit ? "Lecture updated successfully" : "Lecture added successfully", 
+                { id: toastId }
+            );
+            
+            // Reset form and close modal
+            reset();
+            setModalData(null);
+        }
+
+      } catch (error) {
+        console.error("Error creating subsection:", error);
+        toast.error(error.message || `Failed to ${edit ? "update" : "create"} lecture`, {
+            id: toastId
+        });
       }
-      setModalData(null);
       setLoading(false);
     }
+
+    // Add useEffect to properly clean up when modal is closed
+    useEffect(() => {
+      return () => {
+          // Reset form when component unmounts
+          reset();
+      };
+    }, [reset]);
   
   return (
     <div className='fixed inset-0 z-[1000] !mt-0 grid h-screen w-screen place-items-center
