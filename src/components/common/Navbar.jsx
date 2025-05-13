@@ -25,10 +25,7 @@ export const Navbar = () => {
     try{
       const result = await apiConnector("GET", categories.CATEGORIES_API);
       console.log("API Response", result);
-      if(result?.data?.data) {
-        console.log("Categories data:", result.data.data);
-        setSubLinks(result.data.data);
-      }
+      setSubLinks(result.data.data);
     }
     catch(error) {
       console.log("Could not fetch the catalog list", error);
@@ -85,11 +82,11 @@ export const Navbar = () => {
                             {
                               loading ? (
                                 <p className='text-center'>Loading...</p>
-                              ) : (subLinks && subLinks.length) ? (
+
+                              ) : subLinks.length ? (
                                 <>
                                   {
-                                    subLinks?.filter( (subLink) => subLink?.courses?.length > 0)
-                                    ?.map((subLink, i) => (
+                                    subLinks?.map((subLink, i) => (
                                       <Link to={`/catalog/${subLink.name.split(" ").join("-").toLowerCase()}`} 
                                        className='rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50' key={i}>
     

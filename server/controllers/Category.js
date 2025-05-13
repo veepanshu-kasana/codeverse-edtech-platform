@@ -85,7 +85,7 @@ exports.categoryPageDetails = async (request,response) => {
         }
 
         // Handle the case the when there are no courses
-        if(!selectedCategory.courses.length === 0) {
+        if(!selectedCategory.course.length === 0) {
             console.log("No courses found for the selected category");
             return response.status(404).json({
                 success:false,
