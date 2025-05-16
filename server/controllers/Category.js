@@ -1,4 +1,6 @@
 const Category = require("../models/Category");
+const Course = require('../models/Course');
+const mongoose = require('mongoose');
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -69,8 +71,11 @@ exports.categoryPageDetails = async (request,response) => {
         const selectedCategory = await Category.findById(categoryId)
             .populate({
                 path: "course",
-                match: {status: "Published"},
-                populate: "ratingAndReviews",
+                match: { status: "Published" },
+                populate: [
+                    { path: "ratingAndReviews" },
+                    { path: "instructor" } // Added instructor population
+                ]
             })
             .exec();
         console.log("SELECTED COURSE", selectedCategory);
@@ -94,38 +99,38 @@ exports.categoryPageDetails = async (request,response) => {
         }
 
         // Get courses for different categories
-        const categoriesExceptSelected = await Category.find({
-                _id:{$ne: categoryId},
-            })
-            let differentCategories = await Category.findOne(
-                categoriesExceptSelected[getRandomInt(categoriesExceptSelected.length)]._id
-            )
-            .populate({path: "course", match: {status:"Published"}}).exec();
+        const differentCategories = await Category.aggregate([
+            { $match: { _id: { $ne: new mongoose.Types.ObjectId(categoryId) } } },
+            { $sample: { size: 1 } },
+            {
+                $lookup: {
+                    from: "courses",
+                    localField: "course",
+                    foreignField: "_id",
+                    as: "course"
+                }
+            }
+        ]);
 
         // Get top-selling courses across all categories
-        const allCategories = await Category.find()
-        .populate({
-            path: "course",
-            match: {status: "Published"},
-        }).exec();
-
-        const allCourses = allCategories.flatMap((category) => category.course);
-        const mostSellingCourses = allCourses
-            .sort((a, b) => b.sold - a.sold)
-            .slice(0, 10)
+        const mostSellingCourses = await Course.find({ status: "Published" })
+            .sort({ sold: -1 })
+            .limit(10)
+            .populate("instructor")
+            .exec();
 
         // Return response
         return response.status(200).json({
             success:true,
             data: {
                 selectedCategory,
-                differentCategories,
+                differentCategories: differentCategories[0] || { course: [] },
                 mostSellingCourses,
             },
         });
 
     }catch(error) {
-        console.log(error);
+        console.log("CATEGORY PAGE ERROR:", error);
         return response.status(500).json({
             success:false,
             message:'Internal Server Error',  

@@ -76,7 +76,7 @@ router.get("/getInstructorCourses", auth, isInstructor, getInstructorCourses);
 //Get all registered courses
 router.get("/getAllCourses", getAllCourses);
 //Get details for a specific course
-router.post("/getCourseDetails", getCourseDetails);
+router.get("/getCourseDetails/:courseId", getCourseDetails);
 //Get details for specific courses
 router.post("/getFullCourseDetails", auth, getFullCourseDetails);
 //To update course progress

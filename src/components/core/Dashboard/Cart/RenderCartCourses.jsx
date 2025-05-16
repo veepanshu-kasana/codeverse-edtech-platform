@@ -8,7 +8,7 @@ import ReactStars from "react-rating-stars-component"
 export const RenderCartCourses = () => {
 
   const { cart } = useSelector((state) => state.cart);
-  const { dispatch } = useDispatch();
+  const dispatch = useDispatch();
   
   return (
     <div className='flex flex-1 flex-col'>

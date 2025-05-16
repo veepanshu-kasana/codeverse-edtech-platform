@@ -92,17 +92,17 @@ export const Catalog = () => {
                 </p>
             </div>
             <div>
-                <CourseSlider Courses={catalogPageData?.data?.selectedCategory?.courses}/>
+                <CourseSlider Courses={catalogPageData?.data?.selectedCategory?.course || []}/>
             </div>
         </div>
 
         {/* Section 2 */}
         <div className='mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent'>
             <div className='section_heading'>
-                Top Courses in {catalogPageData?.data?.selectedCategory?.name}
+                Top Courses in {catalogPageData?.data?.differentCategories?.name}
             </div>
             <div className='py-8'>
-                <CourseSlider Courses={catalogPageData?.data?.differentCategory?.courses}/>
+                <CourseSlider Courses={catalogPageData?.data?.differentCategories?.course || []}/>
             </div>
         </div>
 
