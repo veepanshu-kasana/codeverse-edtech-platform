@@ -75,13 +75,13 @@ export const CoursesTable = ({courses, setCourses}) => {
                                             {course.courseName}
                                         </p>
                                         <p className='text-xs text-richblack-300'>
-                                            {course.courseDescription.split(" ").length > 
+                                            {course.courseDescription?.split(" ").length > 
                                              TRUNCATE_LENGTH 
                                                 ? course.courseDescription
                                                     .split(" ")
                                                     .slice(0, TRUNCATE_LENGTH)
                                                     .join(" ") + "..."
-                                                : course.courseDescription
+                                                : course.courseDescription || "No description available"
                                             }
                                         </p>
                                         <p className='text-[12px] text-white'>

@@ -155,7 +155,7 @@ exports.getAllCourses = async (request,response) => {
 exports.getCourseDetails = async (request,response) => {
     try {
         // Get course Id
-        const {courseId} = request.body;
+        const courseId = request.params.courseId;
         
         // Find course details
         const courseDetails = await Course.findOne({_id:courseId})

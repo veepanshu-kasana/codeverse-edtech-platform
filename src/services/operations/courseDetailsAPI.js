@@ -33,9 +33,10 @@ export const fetchCourseDetails = async (courseId) => {
     const toastId = toast.loading("Loading...");
     let result = null
     try {
-        const response = await apiConnector("POST", COURSE_DETAILS_API, {
-            courseId,
-        })
+        const response = await apiConnector(
+          "GET", 
+          `${COURSE_DETAILS_API}/${courseId}` // Send courseId in URL
+        );
         console.log("COURSE_DETAILS_API API RESPONSE........", response);
 
         if(!response.data.success) {
@@ -297,7 +298,7 @@ export const fetchInstructorCourses = async (token) => {
         if(!response?.data?.success) {
             throw new Error("Could Not Fetch Instructor Courses")
         }
-        result = response?.data?.data
+        result = response?.data?.data || [];
 
     } catch (error) {
         console.log("INSTRUCTOR COURSES API ERROR.........", error);
