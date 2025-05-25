@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const sectionSchema = new mongoose.Schema({
     sectionName: {
         type: String,
+        required: true
     },
     subSection: [
         {
@@ -11,6 +12,11 @@ const sectionSchema = new mongoose.Schema({
             ref: "SubSection",
         },
     ],
+    courseId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+        required: true,
+    }
 });
 
 module.exports = mongoose.model("Section", sectionSchema);

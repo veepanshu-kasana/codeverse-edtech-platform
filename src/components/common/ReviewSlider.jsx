@@ -11,7 +11,7 @@ import "swiper/css/pagination";
 import "../../App.css";
 
 //Icons
-import { FaStar } from 'react-icons/fa'
+import { FaStar, FaRegStar } from 'react-icons/fa'
 
 //Import required modules 
 import {Autoplay, FreeMode, Pagination} from "swiper/modules";
@@ -28,13 +28,20 @@ export const ReviewSlider = () => {
 
   useEffect(() => {
     (async () => {
-      const {data} = await apiConnector("GET", ratingsEndpoints.REVIEWS_DETAILS_API);
-      if (data?.success) {
-        setReviews(data?.data);
+      try {
+        const {data} = await apiConnector("GET", ratingsEndpoints.REVIEWS_DETAILS_API);
+        // console.log("Full API response:", data);
+        if (data?.success) {
+          setReviews(data?.data || []);
+        } else {
+          setReviews(data || []);
+        }
+      } catch (error) {
+        console.error("Could not fetch reviews:", error);
       }
     })();
   }, []);
-  console.log(reviews);
+  // console.log("Reviews:",reviews);
 
   return (
     <div className='text-white'>
@@ -71,7 +78,7 @@ export const ReviewSlider = () => {
                         </h1>
 
                         <h2 className='text-[12px] font-medium text-richblack-500'>
-                          {review?.course?.courseName}
+                          {review?.courses?.courseName}
                         </h2>
 
                       </div>
@@ -86,18 +93,20 @@ export const ReviewSlider = () => {
 
                     <div className='flex items-center gap-2'>
 
-                      <h3 className='font-semibold text-yellow-100'>
+                      <h3 className='font-semibold text-yellow-100 text-sm'>
                         {review.rating.toFixed(1)}
                       </h3>
 
                       <ReactStars 
                         count={5}
-                        value={review.rating}
-                        size={20}
+                        value={Number(review.rating) || 0}
+                        size={15}
                         edit={false}
-                        activeColor="#ffd700"
-                        emptyIcon={<FaStar/>}
-                        fullIcon={<FaStar/>}
+                        activeColor="#FFD700"
+                        color="#94A3B8"
+                        emptyIcon={<FaRegStar className="inline-block" />}
+                        filledIcon={<FaStar className="inline-block" />}
+                        key={`stars-${i}-${review.rating}`}
                       />
 
                     </div>

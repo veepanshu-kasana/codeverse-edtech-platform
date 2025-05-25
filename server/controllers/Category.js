@@ -70,7 +70,7 @@ exports.categoryPageDetails = async (request,response) => {
         // Get courses for the specified category
         const selectedCategory = await Category.findById(categoryId)
             .populate({
-                path: "course",
+                path: "courses",
                 match: { status: "Published" },
                 populate: [
                     { path: "ratingAndReviews" },
@@ -90,7 +90,7 @@ exports.categoryPageDetails = async (request,response) => {
         }
 
         // Handle the case the when there are no courses
-        if(!selectedCategory.course.length === 0) {
+        if(!selectedCategory.courses.length === 0) {
             console.log("No courses found for the selected category");
             return response.status(404).json({
                 success:false,
@@ -105,9 +105,9 @@ exports.categoryPageDetails = async (request,response) => {
             {
                 $lookup: {
                     from: "courses",
-                    localField: "course",
+                    localField: "courses",
                     foreignField: "_id",
-                    as: "course"
+                    as: "courses"
                 }
             }
         ]);
@@ -124,7 +124,7 @@ exports.categoryPageDetails = async (request,response) => {
             success:true,
             data: {
                 selectedCategory,
-                differentCategories: differentCategories[0] || { course: [] },
+                differentCategories: differentCategories[0] || { courses: [] },
                 mostSellingCourses,
             },
         });

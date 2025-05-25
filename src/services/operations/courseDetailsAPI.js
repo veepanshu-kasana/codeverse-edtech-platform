@@ -340,14 +340,15 @@ export const getFullDetailsOfCourse = async (courseId, token) => {
         )
         console.log("COURSE_FULL_DETAILS_API API RESPONSE........", response);
 
-        if(!response.data.success) {
-            throw new Error(response.data.message)
+        if(!response?.data?.success) {
+            throw new Error(response?.data?.message || "Could not get course details")
         }
-        result = response?.data?.data
+        result = response.data
 
     } catch (error) {
         console.log("COURSE_FULL_DETAILS_API API ERROR.........", error);
-        result = error.response.data
+        console.error(error.message);
+        result = null;
     }
     toast.dismiss(toastId)
     return result
@@ -359,12 +360,18 @@ export const markLectureAsComplete = async (data, token) => {
     console.log("Mark complete data", data);
     const toastId = toast.loading("Loading...")
     try {
+        // Verify data before sending
+        if (!data.courseId || !data.subSectionId) {
+            throw new Error("Missing required fields");
+        }
+
         const response = await apiConnector("POST", LECTURE_COMPLETION_API, data, {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
         })
         console.log("MARK_LECTURE_AS_COMPLETE_API API RESPONSE.........", response);
         if(!response.data.message) {
-            throw new Error(response.data.error)
+            throw new Error(response.data.message || "Failed to mark as complete");
         }
         toast.success("Lecture Completed")
         result = true

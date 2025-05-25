@@ -75,6 +75,7 @@ exports.createCourse = async (request,response) => {
             thumbnail:thumbnailImage.secure_url,
             status:status,
             instructions,
+            // courseContent: []
         });
 
         // Add the new course to the user schema of Instructor
@@ -291,6 +292,7 @@ exports.editCourse = async (request, response) => {
 
 
 exports.getFullCourseDetails = async (request,response) => {
+    // console.log("getFullCourseDetails called", request.body, request.user);
     try {
         const {courseId} = request.body;
         const userId = request.user.id;
@@ -339,7 +341,10 @@ exports.getFullCourseDetails = async (request,response) => {
         return response.status(200).json({
             success:true,
             data: {
-                courseDetails,
+                courseDetails: {
+                  ...courseDetails.toObject(),
+                  courseContent: Array.isArray(courseDetails.courseContent) ? courseDetails.courseContent : [],
+                },
                 totalDuration,
                 completedVideos: courseProgressCount?.completedVideos
                 ? courseProgressCount?.completedVideos : [],

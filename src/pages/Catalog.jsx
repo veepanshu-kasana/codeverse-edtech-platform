@@ -92,7 +92,7 @@ export const Catalog = () => {
                 </p>
             </div>
             <div>
-                <CourseSlider Courses={catalogPageData?.data?.selectedCategory?.course || []}/>
+                <CourseSlider Courses={catalogPageData?.data?.selectedCategory?.courses || []}/>
             </div>
         </div>
 
@@ -102,7 +102,7 @@ export const Catalog = () => {
                 Top Courses in {catalogPageData?.data?.differentCategories?.name}
             </div>
             <div className='py-8'>
-                <CourseSlider Courses={catalogPageData?.data?.differentCategories?.course || []}/>
+                <CourseSlider Courses={catalogPageData?.data?.differentCategories?.courses || []}/>
             </div>
         </div>
 

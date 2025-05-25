@@ -73,8 +73,8 @@ exports.contactUsEmail = (
   
         <body>
             <div class="container">
-                <a href="https://codeplay-edtech-project.vercel.app"><img class="logo"
-                        src="https://i.ibb.co/g48x1XG/Untitled-design.png" alt="CodePlay Logo"></a>
+                <a href="https://codeverse-edtech-platform.vercel.app"><img class="logo"
+                        src="https://res.cloudinary.com/dv46xuqne/image/upload/v1748109728/Email_Template_damg4c.png" alt="CodeVerse Logo"></a>
                 <div class="message">Contact Form Confirmation</div>
                 <div class="body">
                     <p>Dear ${firstname} ${lastname},</p>
@@ -88,7 +88,7 @@ exports.contactUsEmail = (
                     <p>We appreciate your interest and will get back to you shortly. </p>
                 </div>
                 <div class="support">If you have any further questions or need immediate assistance, please feel free to reach
-                    out to us at <a href="mailto:info@codeplay.com">info@codeplay.com</a>. We are here to help!</div>
+                    out to us at <a href="mailto:info@codeverse.com">info@codeverse.com</a>. We are here to help!</div>
             </div>
         </body>
 

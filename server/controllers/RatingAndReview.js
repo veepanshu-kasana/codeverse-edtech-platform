@@ -26,7 +26,7 @@ exports.createRating = async (request,response) => {
         // check if the user has already reviewed the course
         const alreadyReviewed = await RatingAndReview.findOne({
             user:userId,
-            course:courseId,
+            courses:courseId,
         });
         if(alreadyReviewed) {
             return response.status(403).json({
@@ -38,7 +38,7 @@ exports.createRating = async (request,response) => {
         // create a new rating and review
         const ratingReview = await RatingAndReview.create({
             rating, review,
-            course:courseId,
+            courses:courseId,
             user:userId,
         });
 
@@ -79,7 +79,7 @@ exports.getAverageRating = async (request,response) => {
         const result = await RatingAndReview.aggregate([
             {
                 $match:{
-                    course: new mongoose.Types.ObjectId(courseId),
+                    courses: new mongoose.Types.ObjectId(courseId),
                 },
             },
             {
@@ -127,7 +127,7 @@ exports.getAllRatingReview = async (request,response) => {
                 select:"firstName lastName email image",
             })
             .populate({
-                path:"course",
+                path:"courses",
                 //Specify the fields you want to populate from the "Course" model
                 select:"courseName",
             })

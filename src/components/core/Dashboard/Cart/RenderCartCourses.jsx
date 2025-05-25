@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { FaStar } from 'react-icons/fa'
+import { FaStar, FaRegStar } from 'react-icons/fa'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { removeFromCart } from '../../../../slices/cartSlice'
 import ReactStars from "react-rating-stars-component"
@@ -38,8 +38,8 @@ export const RenderCartCourses = () => {
                   <span className='text-yellow-5'>4.5</span>
 
                   <ReactStars
-                    count={5} size={20} edit={false} activeColor="#ffd700" value={course?.ratingAndReviews?.length}
-                     emptyIcon={<FaStar/>} fullIcon={<FaStar/>}
+                    count={5} size={20} edit={false} activeColor="#ffd700" color="#94A3B8" value={course?.ratingAndReviews?.length}
+                     emptyIcon={<FaRegStar className="inline-block" />} fullIcon={<FaStar className="inline-block" />}
                   />
 
                   <span className='text-richblack-400'>
