@@ -141,9 +141,9 @@ export const About = () => {
         {/* Section 6 */}
         <section className='relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col
          items-center justify-between gap-8 bg-richblack-900 text-white'>
-            <h1 className='text-center text-4xl font-semibold mt-8'>
-                Reviews from other learners  
-            </h1>
+            <h2 className="text-center text-3xl md:text-4xl font-semibold text-richblack-5 mt-8 tracking-wide">
+              Reviews From Our Learners
+            </h2>
             <ReviewSlider/>
         </section>
 

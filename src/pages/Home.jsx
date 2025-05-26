@@ -21,8 +21,8 @@ export const Home = () => {
 
             <Link to={"/signup"}>
 
-                <div className='group mt-16 p-1 mx-auto rounded-full bg-richblack-800 font-bold text-richblack-200
-                transition-all duration-200 hover:scale-95 w-fit'>
+                <div className='group mx-auto mt-16 w-fit rounded-full bg-richblack-800 p-1 font-bold text-richblack-200
+                 drop-shadow-[0_1.5px_rgba(255,255,255,0.25)] transition-all duration-200 hover:scale-95 hover:drop-shadow-none'>
 
                     <div className='flex flex-row items-center gap-2 rounded-full px-10 py-[5px]
                     transition-all duration-200 group-hover:bg-richblack-900'>
@@ -33,12 +33,12 @@ export const Home = () => {
                 </div>
             </Link>
 
-            <div className='text-center text-4xl font-semibold mt-7'>
+            <div className='text-center text-4xl font-semibold'>
                 Empower Your Future with 
                 <HighlightText text={"Coding Skills"}/>
             </div>
 
-            <div className='mt-4 w-[90%] text-center text-lg font-bold text-richblack-300'>
+            <div className='-mt-3 w-[90%] text-center text-lg font-bold text-richblack-300'>
                 With our online coding courses, you can learn at your own pace, from
                 anywhere in the world, and get access to a wealth of resources,
                 including hands-on projects, quizzes, and personalized feedback from
@@ -56,8 +56,8 @@ export const Home = () => {
 
             </div>
 
-            <div className='shadow-blue-200 mx-3 my-12'>
-                <video muted loop autoPlay>
+            <div className='shadow-blue-200 mx-3 my-7 shadow-[10px_-5px_50px_-5px]'>
+                <video muted loop autoPlay className='shadow-[20px_20px_rgba(255,255,255)]'>
                     <source src={bannerVideo} type='video/mp4'/>
                 </video>
             </div>
@@ -70,7 +70,7 @@ export const Home = () => {
                         <div className='text-4xl font-semibold'>
                             Unlock Your 
                             <HighlightText text={"coding potential"}/>
-                            with our online courses
+                            with our online courses.
                         </div>
                     }
                     subheading={
@@ -79,14 +79,14 @@ export const Home = () => {
                     }
                     ctabtn1={
                         {
-                            btnText:"Try it yourself",
+                            btnText:"Try it Yourself",
                             linkto:"/signup",
                             active:true
                         }
                     }
                     ctabtn2={
                         {
-                            btnText:"Learn more",
+                            btnText:"Learn More",
                             linkto:"/signup",
                             active:false
                         }
@@ -103,7 +103,7 @@ export const Home = () => {
                 <CodeBlocks
                     position={"lg:flex-row-reverse"}
                     heading={
-                        <div className='text-4xl font-semibold'>
+                        <div className='w-[100%] lg:w-[50%] text-4xl font-semibold'>
                             Start 
                             <HighlightText text={"coding in seconds"}/>
                         </div>
@@ -121,7 +121,7 @@ export const Home = () => {
                     }
                     ctabtn2={
                         {
-                            btnText:"Learn more",
+                            btnText:"Learn More",
                             linkto:"/signup",
                             active:false
                         }
@@ -139,15 +139,15 @@ export const Home = () => {
         {/* Section 2 */}
         <div className='bg-pure-greys-5 text-richblack-700'>
 
-            <div className='homepage_bg h-[310px]'>
-                <div className='w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-5 mx-auto'>
+            <div className='homepage_bg h-[320px]'>
+                <div className='w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-8 mx-auto'>
 
-                    <div className='h-[150px]'></div>
+                    <div className='lg:h-[150px]'></div>
 
-                    <div className='flex flex-row gap-7 text-white'>
+                    <div className='flex flex-row gap-7 text-white lg:mt-8'>
 
                         <CTAButton active={true} linkto={"/signup"}>
-                            <div className='flex items-center gap-3'>
+                            <div className='flex items-center gap-2'>
                                 Explore Full Catalog
                                 <FaArrowRight/>
                             </div>
@@ -164,16 +164,16 @@ export const Home = () => {
                 </div>
             </div>
 
-            <div className='mx-auto w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-7'>
+            <div className='mx-auto w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-8'>
 
-                <div className='flex flex-row gap-5 mb-10 mt-[95px]'>
+                <div className='mb-10 mt-[-100px] flex flex-col justify-between gap-7 lg:mt-20 lg:flex-row lg:gap-0'>
 
-                    <div className='text-4xl font-semibold w-[45%]'>
+                    <div className='text-4xl font-semibold lg:w-[45%]'>
                         Get the skills you need for a 
-                        <HighlightText text={"Job that is in Demand"}/>
+                        <HighlightText text={"job that is in demand."}/>
                     </div>
 
-                    <div className='flex flex-col gap-10 w-[40%] items-start'>
+                    <div className='flex flex-col gap-10 lg:w-[40%] items-start'>
                         <div className='text-[16px]'>
                             The modern CodeVerse is the dictates its own terms. Today, to
                             be a competitive specialist requires more than professional
@@ -197,12 +197,14 @@ export const Home = () => {
         </div>
 
         {/* Section 3 */}
-        <div className='w-11/12 mx-auto max-w-maxContent flex-col items-center justify-between gap-8 
-        first-letter bg-richblack-900 text-white'>
+        <div className='w-11/12 relative mx-auto my-20 max-w-maxContent flex flex-col items-center justify-between
+         gap-8 bg-richblack-900 text-white'>
 
             <InstructorSection/>
 
-            <h2 className='text-center text-4xl font-semibold mt-10'>Review from other learners</h2>
+            <h2 className="text-center text-3xl md:text-4xl font-semibold text-richblack-5 mt-8 tracking-wide">
+              Reviews From Our Learners
+            </h2>
             {/* Review Slider Here */}
             <ReviewSlider/>
 

@@ -49,10 +49,12 @@ export const Instructor = () => {
                 <div className='spinner'></div>
             ) : courses.length > 0 ? (
                 <div>
-                    <div className='my-4 flex h-[450px] space-x-4'>
+                    <div className='my-4 flex flex-col lg:flex-row gap-4'>
                      {
                         totalAmount > 0 || totalStudents > 0 ? (
-                            <InstructorChart courses={instructorData}/>
+                            <div className='flex-1 rounded-md bg-richblack-800 p-6 min-h-[300px]'>
+                              <InstructorChart courses={instructorData} />
+                            </div>
                         ) : (
                             <div className='flex-1 rounded-md bg-richblack-800 p-6'>
                                 <p className='text-lg font-bold text-richblack-5'>
@@ -64,7 +66,7 @@ export const Instructor = () => {
                             </div>
                         )
                      }  
-                        <div className='flex min-w-[250px] flex-col rounded-md bg-richblack-800 p-6'>
+                        <div className='lg:min-w-[250px] flex flex-col rounded-md bg-richblack-800 p-6'>
                             <p className='text-lg font-bold text-richblack-5'>
                                 Statistics
                             </p>

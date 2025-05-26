@@ -20,7 +20,7 @@ export const CourseCard = ({cardData, currentCard, setCurrentCard}) => {
             </div>
 
             <div className='text-richblack-400'>
-                {cardData?.heading}
+                {cardData?.description}
             </div>
 
         </div>

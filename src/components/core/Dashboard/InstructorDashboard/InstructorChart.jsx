@@ -44,10 +44,36 @@ export const InstructorChart = ({courses}) => {
   // Create options
   const options = {
     maintainAspectRatio: false,
+    responsive: true,
+    cutout: '5%',
+    plugins: {
+      legend: {
+        position: 'right',
+        labels: {
+          boxWidth: 12,
+          font: {
+            size: 13,
+            family: "'Inter', sans-serif"
+          },
+          padding: 20,
+          usePointStyle: true,
+        }
+      },
+      animation: {
+        animateScale: true,
+        animateRotate: true
+      },
+      elements: {
+        arc: {
+          borderWidth: 2,
+          borderColor: '#1E293B',
+        }
+      }
+    }
   }
 
   return (
-    <div className='flex flex-1 flex-col gap-y-4 rounded-md bg-richblack-800 p-6'>
+    <div className='flex flex-1 flex-col gap-y-4'>
 
         <p className='text-lg font-bold text-richblack-5'>Visualize</p>
 
@@ -69,7 +95,7 @@ export const InstructorChart = ({courses}) => {
           </button>
         </div>
 
-        <div className='relative mx-auto aspect-square h-full w-full'>
+        <div className='relative mx-auto aspect-square h-[350px] w-full'>
           <Pie
             data={currChart === "students" ? chartDataForStudents : chartDataForIncome}
             options={options}
