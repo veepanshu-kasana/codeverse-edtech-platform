@@ -25,6 +25,7 @@ export const CourseReviewModal = ({setReviewModal}) => {
     useEffect(() => {
         setValue('courseExperience', "");
         setValue('courseRating', 0);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[setValue])
 
     const ratingChanged = (newRating) => {

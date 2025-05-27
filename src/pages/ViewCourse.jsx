@@ -46,6 +46,7 @@ export const ViewCourse = () => {
         if (courseId && token) {
             setCourseSpecificDetails();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[courseId, token, dispatch]);
 
   return (

@@ -39,6 +39,7 @@ export const VideoDetailsSidebar = ({setReviewModal}) => {
             // Set current sub-section here
             setVideoBarActive(activeSubSectionId);
         })()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [courseSectionData, courseEntireData, location.pathname]);
 
   return (

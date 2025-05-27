@@ -1,15 +1,17 @@
 {
-  "name": "server",
+  "name": "codeverse-backend",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js --kill-others"
+    "dev": "nodemon index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "codeverse-backend"
+  ],
+  "author": "Veepanshu Kasana",
   "license": "ISC",
-  "description": "",
+  "description": "codeverse-backend",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",

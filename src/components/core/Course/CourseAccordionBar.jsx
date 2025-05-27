@@ -11,6 +11,7 @@ export const CourseAccordionBar = ({course, isActive, handleActive}) => {
 
     useEffect(() => {
         setActive(isActive?.includes(course._id))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isActive])
 
     const [sectionHeight, setSectionHeight] = useState(0);

@@ -81,13 +81,11 @@ export const addCourseDetails = async (data, token) => {
         // Validate required data
         if (!data || !token) {
             throw new Error("Missing required parameters");
-            return null;
         }
     
         // Validate thumbnail presence
         if (!data.get('thumbnailImage')) {
             throw new Error("Thumbnail image is required");
-            return null;
         }
 
         const response = await apiConnector("POST", CREATE_COURSE_API, data, {

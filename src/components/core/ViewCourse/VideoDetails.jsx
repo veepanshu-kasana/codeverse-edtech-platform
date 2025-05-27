@@ -44,9 +44,8 @@ export const VideoDetails = () => {
           (course) => course._id === sectionId
         )
 
-        const filteredVideoData = filteredData?.[0]?.subSection.filter(
-          (data) => data._id === subSectionId
-        )
+        const filteredVideoData = filteredData?.[0]?.subSection
+        .filter((data) => data._id === subSectionId)
 
         setVideoData(filteredVideoData[0]);
         setPreviewSource(courseEntireData.thumbnail);
@@ -54,7 +53,7 @@ export const VideoDetails = () => {
       }
     }
     setVideoSpecificDetails();
-  },[courseSectionData, courseEntireData, location.pathname])
+  },[courseSectionData, courseEntireData, location.pathname, courseId, sectionId, subSectionId, navigate])
 
   const isFirstVideo = () => {
     const currentSectionIndex = courseSectionData.findIndex(

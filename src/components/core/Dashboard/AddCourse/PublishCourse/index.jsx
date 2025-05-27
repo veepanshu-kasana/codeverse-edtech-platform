@@ -20,7 +20,7 @@ export const PublishCourse = () => {
         if(course?.status === COURSE_STATUS.PUBLISHED) {
             setValue("public", true);
         }
-    }, [])
+    }, [course?.status, setValue])
 
     const goBack = () => {
         dispatch(setStep(2));
@@ -33,7 +33,7 @@ export const PublishCourse = () => {
 
     const handleCoursePublish = async () => {
         // Check if form has been updated or not
-        if(course?.status === COURSE_STATUS.PUBLISHED && getValues("public") === true ||
+        if((course?.status === COURSE_STATUS.PUBLISHED && getValues("public") === true) ||
         (course.status === COURSE_STATUS.DRAFT && getValues("public") === false)) {
             // Form has not been updated - No need to make api call
             goToCourses();
