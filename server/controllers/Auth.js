@@ -32,11 +32,11 @@ exports.sendOTP = async (request,response) => {
             lowerCaseAlphabets:false,
             specialChars:false,
         });
-        console.log("OTP Generated:", otp);
+        // console.log("OTP Generated:", otp);
 
         // Check otp is unique or not
         let result = await OTP.findOne({otp: otp});
-        console.log("Result:", result);
+        // console.log("Result:", result);
 
         while(result) {
             otp = otpGenerator.generate(6, {
@@ -52,7 +52,7 @@ exports.sendOTP = async (request,response) => {
 
         // Create an entry for OTP
         const otpBody = await OTP.create(otpPayload);
-        console.log("OTP Body:", otpBody);
+        // console.log("OTP Body:", otpBody);
 
         // Send notification email - OTP Verification
         try {
@@ -61,7 +61,7 @@ exports.sendOTP = async (request,response) => {
                 "CodeVerse: Your OTP Verification Code",
                 otpTemplate(otp)
             );
-            console.log("Email sent successfully:", emailResponse.response);
+            // console.log("Email sent successfully:", emailResponse.response);
             
         }catch(error) {
             // If there's an error sending the email, log the error and return a 500 (Internal Server Error) error
@@ -132,7 +132,7 @@ exports.signUp = async (request, response) => {
 
         // Find most recent OTP stored for the user
         const recentOtp = await OTP.find({email}).sort({createdAt:-1}).limit(1)
-        console.log(recentOtp)
+        // console.log(recentOtp)
 
         // Validate OTP
         recentOtpEntry = recentOtp[0];
@@ -297,7 +297,7 @@ exports.changePassword = async(request,response) => {
                     `Password updated successfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName}`
                 )
             );
-            console.log("Email sent successfully:", emailResponse.response);
+            // console.log("Email sent successfully:", emailResponse.response);
             
         }catch(error) {
             // If there's an error sending the email, log the error and return a 500 (Internal Server Error) error

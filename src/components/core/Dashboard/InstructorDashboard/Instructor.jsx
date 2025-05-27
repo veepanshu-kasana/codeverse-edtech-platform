@@ -19,7 +19,7 @@ export const Instructor = () => {
             const instructorApiData = await getInstructorData(token);
             const result = await fetchInstructorCourses(token);
 
-            console.log(instructorApiData);
+            // console.log(instructorApiData);
             if(instructorApiData.length) 
                 setInstructorData(instructorApiData);
             if(result) {

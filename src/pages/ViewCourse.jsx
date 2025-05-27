@@ -27,7 +27,7 @@ export const ViewCourse = () => {
     
                 // Safely handle the courseContent array
                 const courseContent = courseData?.data?.courseDetails?.courseContent || [];
-                console.log("Course Content:", courseContent);
+                // console.log("Course Content:", courseContent);
     
                 dispatch(setCourseSectionData(courseContent));
                 dispatch(setEntireCourseData(courseData.data.courseDetails));

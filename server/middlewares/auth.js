@@ -22,7 +22,7 @@ exports.auth = async (request,response,next) => {
         // Verifying the JWT using the secret key stored in environment variables
         try {
             const decode = jwt.verify(token, process.env.JWT_SECRET);
-            console.log(decode);
+            // console.log(decode);
             request.user = decode;
         }
         catch(error) {

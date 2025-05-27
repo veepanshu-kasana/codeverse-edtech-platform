@@ -21,14 +21,14 @@ export const VideoDetails = () => {
   const [videoEnded, setVideoEnded] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    console.log("Current video data:", {
-      courseId,
-      sectionId,
-      subSectionId,
-      videoData
-    });
-  }, [courseId, sectionId, subSectionId]);
+  // useEffect(() => {
+  //   console.log("Current video data:", {
+  //     courseId,
+  //     sectionId,
+  //     subSectionId,
+  //     videoData
+  //   });
+  // }, [courseId, sectionId, subSectionId]);
 
   useEffect(() => {
     const setVideoSpecificDetails = async() => {
@@ -141,7 +141,7 @@ export const VideoDetails = () => {
     if (!courseId || !subSectionId) {
         throw new Error("Missing course or lecture ID");
     }
-    console.log({ courseId, subSectionId });
+    // console.log({ courseId, subSectionId });
     const response = await markLectureAsComplete({courseId: courseId, subSectionId:subSectionId}, token);
     if(response) {
       dispatch(updatedCompletedLectures(subSectionId));

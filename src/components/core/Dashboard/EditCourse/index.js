@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom';
 import { RenderSteps } from '../AddCourse/RenderSteps';
-import { getFullDetailsOfCourse } from '../../../../services/operations/courseDetailsAPI';
+import { fetchCourseDetails } from '../../../../services/operations/courseDetailsAPI';
 import { setCourse, setEditCourse } from '../../../../slices/courseSlice';
 
 export const EditCourse = () => {
@@ -16,10 +16,10 @@ export const EditCourse = () => {
     useEffect(() => {
         const populateCourseDetails = async() => {
             setLoading(true);
-            const result = await getFullDetailsOfCourse(courseId, token);
-            if(result?.courseDetails) {
+            const result = await fetchCourseDetails(courseId, token);
+            if(result && result.data && result.data.courseDetails) {
                 dispatch(setEditCourse(true));
-                dispatch(setCourse(result?.courseDetails));
+                dispatch(setCourse(result.data.courseDetails));
             }
             setLoading(false);
         }
@@ -37,7 +37,7 @@ export const EditCourse = () => {
   return (
     <div>
         <h1 className='mb-14 text-3xl font-medium text-richblack-5'>
-            Edit Course
+            Edit Course: {course ? course.courseName : ""}
         </h1>
         <div className='mx-auto max-w-[600px]'>
             {

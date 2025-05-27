@@ -84,7 +84,7 @@ exports.updateSection = async(request,response) => {
             },
         })
         .exec();
-        console.log(course);
+        // console.log(course);
 
         //return response
         return response.status(200).json({
@@ -124,7 +124,7 @@ exports.deleteSection = async (request,response) => {
         })
 
         const section = await Section.findById(sectionId);
-        console.log(sectionId, courseId);
+        // console.log(sectionId, courseId);
 
         if(!section) {
             return response.status(404).json({

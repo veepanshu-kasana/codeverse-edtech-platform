@@ -22,7 +22,7 @@ const OTPSchema = new mongoose.Schema({
 async function sendVerificationEmail(email,otp) {
     try {
         const mailResponse = await mailSender(email,"Verification Email from CodeVerse", emailTemplate(otp));
-        console.log("Email Sent Successfully:", mailResponse.response); 
+        // console.log("Email Sent Successfully:", mailResponse.response); 
     }
     catch(error) {
         console.log("Error occured while sending mails", error);

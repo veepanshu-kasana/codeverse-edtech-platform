@@ -3,7 +3,7 @@ const mailSender = require("../utils/mailSender");
 
 exports.contactUsController = async (request,response) => {
     const {email, firstname, lastname, message, phoneNo, countrycode} = request.body;
-    console.log(request.body);
+    // console.log(request.body);
 
     try {
         const emailResponse = await mailSender(
@@ -11,7 +11,7 @@ exports.contactUsController = async (request,response) => {
             "Your data send successfully",
             contactUsEmail(email, firstname, lastname, message, phoneNo, countrycode)
         )
-        console.log("Email Response ", emailResponse);
+        // console.log("Email Response ", emailResponse);
         return response.json({
             success:true,
             message: "Email sent successfully",

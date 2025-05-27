@@ -43,7 +43,7 @@ export const CourseBuilderForm = () => {
 
       } else {
         result = await createSection(formData, token);
-        console.log("Result from createSection:", result);
+        // console.log("Result from createSection:", result);
 
       }
       if(result?.success) {

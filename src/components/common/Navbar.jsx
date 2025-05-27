@@ -24,7 +24,7 @@ export const Navbar = () => {
     setLoading(true);
     try{
       const result = await apiConnector("GET", categories.CATEGORIES_API);
-      console.log("API Response", result);
+      // console.log("API Response", result);
       setSubLinks(result.data.data);
     }
     catch(error) {
@@ -51,7 +51,7 @@ export const Navbar = () => {
 
         {/* Navbar Logo Image */}
         <Link to='/'>
-          <img src={Logo} width={160} height={32} loading='lazy' alt='Logo' />
+          <img src={Logo} width={145} height={32} loading='lazy' alt='Logo' />
         </Link>
 
         {/* Navbar Links */}

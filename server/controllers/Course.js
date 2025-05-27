@@ -40,7 +40,7 @@ exports.createCourse = async (request,response) => {
         const instructorDetails = await User.findById(userId,{
             accountType: "Instructor",
         });
-        console.log("Instructor Details:", instructorDetails);
+        // console.log("Instructor Details:", instructorDetails);
 
         if(!instructorDetails) {
             return response.status(404).json({
@@ -99,7 +99,7 @@ exports.createCourse = async (request,response) => {
             },
             {new:true}
         )
-        console.log("New course added to the categories:", categoryDetails2);
+        // console.log("New course added to the categories:", categoryDetails2);
 
         // Return a new course and response
         return response.status(200).json({
