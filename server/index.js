@@ -29,7 +29,7 @@ app.use(
     cors({
         origin:[
             "http://localhost:3000",
-            "https://codeverse-edtech-platform.vercel.app/"
+            "https://codeverse-edtech-platform.vercel.app"
         ],
         credentials:true,
     })

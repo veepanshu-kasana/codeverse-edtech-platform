@@ -4,7 +4,7 @@ Welcome to the CodeVerse EdTech Platform Repository!
 
 This comprehensive repository houses the backbone of the revolutionary CodeVerse EdTech platform – a dynamic and feature-rich MERN stack application that is set to reshape the landscape of online education. With a seamless blend of technology and education, CodeVerse empowers both instructors and students, fostering a vibrant learning community.
 
-* Project Link :- https://codeverse-edtech-project.vercel.app/
+* Project Link :- https://codeverse-edtech-platform.vercel.app/
 
 ## Features
 

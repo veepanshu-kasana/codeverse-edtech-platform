@@ -32,8 +32,8 @@ exports.resetPasswordToken = async (request,response) => {
         // console.log("DETAILS", updatedDetails);
 
         // Create URL
-        const url = `http://localhost:3000/update-password/${token}`
-        //  const url = `https://codeverse-edtech-project.vercel.app/update-password/${token}`
+        // const url = `http://localhost:3000/update-password/${token}`
+        const url = `https://codeverse-edtech-platform.vercel.app/update-password/${token}`
 
         // Send mail containing the url
         await mailSender(
